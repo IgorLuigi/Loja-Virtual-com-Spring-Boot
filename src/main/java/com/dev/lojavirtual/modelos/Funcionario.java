@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import com.dev.lojavirtual.validacaoCPF.*;
 
 @Entity
 @Table(name = "funcionario")
@@ -26,6 +27,7 @@ public class Funcionario implements Serializable {
 	private Long id;
 
 	private String nome;
+	private String cpf;
 	private Double salarioBruto;
 	@Temporal(TemporalType.DATE)
 	private Date dataEntrada;
@@ -54,6 +56,17 @@ public class Funcionario implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		if (ValidarCPF.isCPF(cpf) == true)
+			System.out.printf("%s\n", ValidarCPF.imprimeCPF(cpf));
+		else System.out.printf("Erro, CPF invalido !!!\n");
+		this.cpf = cpf;
 	}
 
 	public Double getSalarioBruto() {

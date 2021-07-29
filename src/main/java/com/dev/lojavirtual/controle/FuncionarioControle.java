@@ -15,6 +15,8 @@ import com.dev.lojavirtual.repositorios.FuncionarioRepositorio;
 import java.util.Optional;
 
 import javax.validation.Valid;
+
+import com.dev.lojavirtual.validacaoCPF.*;
 	
 @Controller
 public class FuncionarioControle {
@@ -27,6 +29,8 @@ public class FuncionarioControle {
 		ModelAndView mv = new ModelAndView("administrativo/funcionarios/cadastro");
 		mv.addObject("funcionario", funcionario);
 		return mv;
+		
+        
 	}
 	
 	@GetMapping("/administrativo/funcionarios/listar")
