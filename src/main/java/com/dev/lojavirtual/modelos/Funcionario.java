@@ -57,7 +57,7 @@ public class Funcionario implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	public String getCpf() {
 		return cpf;
 	}
@@ -65,7 +65,8 @@ public class Funcionario implements Serializable {
 	public void setCpf(String cpf) {
 		if (ValidarCPF.isCPF(cpf) == true)
 			System.out.printf("%s\n", ValidarCPF.imprimeCPF(cpf));
-		else System.out.printf("Erro, CPF invalido !!!\n");
+		else
+			System.out.printf("Erro, CPF invalido !!!\n");
 		this.cpf = cpf;
 	}
 
