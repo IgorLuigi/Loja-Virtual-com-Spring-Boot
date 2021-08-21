@@ -119,11 +119,36 @@
 								th:href="@{/administrativo/funcionarios/editar/{id}(id=${funcionario.id})}"
 								role="button"> <span class="oi oi-brush" title="Editar"
 									aria-hidden="true"></span>
-							</a> <a class="btn btn-danger btn-sm"
-								th:href="@{/administrativo/funcionarios/remover/{id}(id=${funcionario.id})}"
-								role="button"> <span class="oi oi-circle-x" title="Remover"
-									aria-hidden="true"></span>
-							</a></td>
+							</a> 
+							<a class="btn btn-danger btn-sm" data-toggle="modal"
+								data-target="#modal-warning"
+								th:attr="data-target='#modal-warning'+${funcionario.id }"><span
+									class="oi oi-circle-x" title="Remover" aria-hidden="true"></span></a>
+
+								<div class="modal modal-warning fade in"
+									th:id="modal-warning+${funcionario.id }">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Fechar">
+													<span aria-hidden="true">×</span>
+												</button>
+												<h5 class="modal-title">Remover Funcionário</h5>
+											</div>
+											<div class="modal-body">
+												<h3>Deseja realmente remover o funcionário?</h3>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-outline pull-left"
+													data-dismiss="modal">Fechar</button>
+												<a type="button" class="btn btn-outline"
+													th:href="@{/administrativo/funcionarios/remover/{id}(id=${funcionario.id})}"><i
+													class="fa fa-check"></i>&nbsp;Sim</a>
+											</div>
+										</div>
+									</div>
+								</div></td>
 						</tr>
 					</tbody>
 				</table>
