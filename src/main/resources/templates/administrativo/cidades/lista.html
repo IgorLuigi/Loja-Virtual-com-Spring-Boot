@@ -2,7 +2,7 @@
 <html xmlns:layout="http://www.w3.org/1999/xhtml"
 	layout:decorate="~{administrativo/fragments/layout}">
 <head>
-<title>Página Lista de Estados</title>
+<title>Página Lista de Cidades</title>
 </head>
 <body>
 
@@ -11,12 +11,12 @@
 			<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active"><i class="oi oi-caret-right"></i>
-						<span>Lista de Estados</span></li>
+						<span>Lista de Cidades</span></li>
 				</ul>
 				<a class="btn btn-primary btn-md"
-					href="/administrativo/estados/cadastrar" role="button"> <span
+					href="/administrativo/cidades/cadastrar" role="button"> <span
 					class="oi oi-plus" title="Cadastro" aria-hidden="true"></span> <span>Cadastrar
-						Estados</span>
+						Cidades</span>
 				</a>
 			</div>
 		</nav>
@@ -27,29 +27,31 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Nome</th>
-							<th>Sigla</th>
+							<th>Nome da Cidade</th>
+							<th>Nome do Estado</th>
+							<th>Sigla do Estado</th>
 							<th>Ação</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="estado : ${listaEstados}">
-							<td th:text="${estado.id}"></td>
-							<td th:text="${estado.nome}"></td>
-							<td th:text="${estado.sigla}"></td>
+						<tr th:each="cidade : ${listaCidades}">
+							<td th:text="${cidade.id}"></td>
+							<td th:text="${cidade.nome}"></td>
+							<td th:text="${cidade.estado.nome}"></td>
+							<td th:text="${cidade.estado.sigla}"></td>
 
 							<td colspan="2"><a class="btn btn-info btn-sm"
-								th:href="@{/administrativo/estados/editar/{id}(id=${estado.id})}"
+								th:href="@{/administrativo/cidades/editar/{id}(id=${cidade.id})}"
 								role="button"> <span class="oi oi-brush" title="Editar"
 									aria-hidden="true"></span>
 							</a> 
 							<a class="btn btn-danger btn-sm" data-toggle="modal"
 								data-target="#modal-warning"
-								th:attr="data-target='#modal-warning'+${estado.id }"><span
+								th:attr="data-target='#modal-warning'+${cidade.id }"><span
 									class="oi oi-circle-x" title="Remover" aria-hidden="true"></span></a>
 
 								<div class="modal modal-warning fade in"
-									th:id="modal-warning+${estado.id }">
+									th:id="modal-warning+${cidade.id }">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
@@ -57,16 +59,16 @@
 													aria-label="Fechar">
 													<span aria-hidden="true">×</span>
 												</button>
-												<h5 class="modal-title">Remover Estado</h5>
+												<h5 class="modal-title">Remover Cidade</h5>
 											</div>
 											<div class="modal-body">
-												<h3>Deseja realmente remover o estado?</h3>
+												<h3>Deseja realmente remover a cidade?</h3>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-outline pull-left"
 													data-dismiss="modal">Fechar</button>
 												<a type="button" class="btn btn-outline"
-													th:href="@{/administrativo/estados/remover/{id}(id=${estado.id})}"><i
+													th:href="@{/administrativo/cidades/remover/{id}(id=${cidade.id})}"><i
 													class="fa fa-check"></i>&nbsp;Sim</a>
 											</div>
 										</div>
