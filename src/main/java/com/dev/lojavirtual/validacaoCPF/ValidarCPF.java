@@ -64,4 +64,3 @@ public class ValidarCPF {
             CPF.substring(6, 9) + "-" + CPF.substring(9, 11));
         }
 }
-
