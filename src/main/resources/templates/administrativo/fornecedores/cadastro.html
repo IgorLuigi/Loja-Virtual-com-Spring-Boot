@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+	layout:decorate="~{administrativo/fragments/layout}">
+<head>
+<title>Página Cadastro de Estados</title>
+</head>
+<body>
+
+
+	<section class="layout-content" layout:fragment="corpo">
+		<div class="page-header">
+			<nav class="navbar navbar-expand-md navbar-top bg-light">
+				<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+					<ul class="navbar-nav">
+						<li class="nav-item active"><i class="oi oi-caret-right"></i>
+							<span>Cadastrar Fornecedores</span></li>
+					</ul>
+				</div>
+				<a class="btn btn-primary btn-md"
+					href="/administrativo/fornecedores/listar" role="button"> <span
+					class="oi oi-spreadsheet" title="Cadastro" aria-hidden="true"></span>
+					<span>Listar Fornecedores</span>
+				</a>
+			</nav>
+		</div>
+
+		<div class="container" id="cadastro">
+			<form action="/administrativo/fornecedores/salvar"
+				th:object="${fornecedor}" method="POST">
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="empresa">Nome do Fornecedor</label> <input type="text"
+							class="form-control" id="empresa" placeholder="Nome da Empresa"
+							autofocus="autofocus" th:field="*{empresa}" value="" />
+						<div class="invalid-feedback"></div>
+					</div>
+					<div class="form-group col-md-6">
+						<label for="salario">CNPJ</label> <input type="text"
+							class="form-control" id="cnpj" placeholder="CNPJ" 
+							data-mask-reverse="true" th:field="*{cnpj}" value="" />
+						<div class="invalid-feedback"></div>
+					</div>
+					
+				<input type="hidden" id="id" th:field="*{id}" value="" />
+				<button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+			</form>
+		</div>
+	</section>
+
+</body>
+</html>
