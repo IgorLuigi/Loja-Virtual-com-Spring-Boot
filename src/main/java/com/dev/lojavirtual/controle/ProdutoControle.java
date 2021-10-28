@@ -7,56 +7,77 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dev.lojavirtual.modelos.Produto;
 import com.dev.lojavirtual.repositorios.ProdutoRepositorio;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
-	
 @Controller
 public class ProdutoControle {
-	
+
+	private static String caminhoImagem = "C:\\Users\\Jaguanhara Neto\\Desktop\\Igor";
+
 	@Autowired
 	private ProdutoRepositorio produtoRepositorio;
-	
+
 	@GetMapping("/administrativo/produtos/cadastrar")
 	public ModelAndView cadastrar(Produto produto) {
 		ModelAndView mv = new ModelAndView("administrativo/produtos/cadastro");
 		mv.addObject("produto", produto);
-		return mv;  
+		return mv;
 	}
-	
+
 	@GetMapping("/administrativo/produtos/listar")
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("administrativo/produtos/lista");
 		mv.addObject("listaProdutos", produtoRepositorio.findAll());
 		return mv;
 	}
-	
+
 	@GetMapping("/administrativo/produtos/editar/{id}")
 	public ModelAndView editar(@PathVariable("id") Long id) {
 		Optional<Produto> produto = produtoRepositorio.findById(id);
 		return cadastrar(produto.get());
 	}
-	
+
 	@GetMapping("/administrativo/produtos/remover/{id}")
 	public ModelAndView remover(@PathVariable("id") Long id) {
 		Optional<Produto> produto = produtoRepositorio.findById(id);
 		produtoRepositorio.delete(produto.get());
 		return listar();
 	}
-	
+
 	@PostMapping("/administrativo/produtos/salvar")
-	public ModelAndView salvar(@Valid Produto produto, BindingResult result) {
-		if(result.hasErrors()) {
+	public ModelAndView salvar(@Valid Produto produto, BindingResult result,
+			@RequestParam("file") MultipartFile arquivo) {
+		if (result.hasErrors()) {
 			return cadastrar(produto);
 		}
-		produtoRepositorio.saveAndFlush(produto);
 		
+		try {
+			if(arquivo.isEmpty()) {
+				byte[] bytes = arquivo.getBytes();
+				Path caminho = Paths.get(caminhoImagem+String.valueOf(produto.getId())+arquivo.getOriginalFilename());
+				Files.write(caminho, bytes);
+				
+				produto.setNomeImagem(String.valueOf(produto.getId())+arquivo.getOriginalFilename());
+			}
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		produtoRepositorio.saveAndFlush(produto);
+
 		return cadastrar(new Produto());
 	}
 }
