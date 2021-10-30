@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dev.lojavirtual.modelos.Produto;
 import com.dev.lojavirtual.repositorios.ProdutoRepositorio;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +27,7 @@ import javax.validation.Valid;
 @Controller
 public class ProdutoControle {
 
-	private static String caminhoImagem = "C:\\Users\\Jaguanhara Neto\\Desktop\\Igor";
+	private static String caminhoImagem = "C:\\Users\\Jaguanhara Neto\\Documents\\imagensProjetoWEB";
 
 	@Autowired
 	private ProdutoRepositorio produtoRepositorio;
@@ -56,6 +58,16 @@ public class ProdutoControle {
 		produtoRepositorio.delete(produto.get());
 		return listar();
 	}
+	
+	@ResponseBody
+	@GetMapping("administrativo/produtos/mostrarImagem/{imagem}")
+	public byte[] retornarImagem(@PathVariable("imagem") String imagem) throws IOException {
+		File imagemArquivo = new File(caminhoImagem + imagem);
+		if(imagem != null || imagem.trim().length() > 0) {
+			return Files.readAllBytes(imagemArquivo.toPath());
+		}
+		return null;
+	}
 
 	@PostMapping("/administrativo/produtos/salvar")
 	public ModelAndView salvar(@Valid Produto produto, BindingResult result,
@@ -65,12 +77,13 @@ public class ProdutoControle {
 		}
 		
 		try {
-			if(arquivo.isEmpty()) {
+			if(!arquivo.isEmpty()) {
 				byte[] bytes = arquivo.getBytes();
 				Path caminho = Paths.get(caminhoImagem+String.valueOf(produto.getId())+arquivo.getOriginalFilename());
 				Files.write(caminho, bytes);
 				
 				produto.setNomeImagem(String.valueOf(produto.getId())+arquivo.getOriginalFilename());
+				produtoRepositorio.saveAndFlush(produto);
 			}
 		}catch(IOException e) {
 			e.printStackTrace();
