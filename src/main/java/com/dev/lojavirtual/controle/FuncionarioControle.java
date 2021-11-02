@@ -1,6 +1,7 @@
 package com.dev.lojavirtual.controle;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -61,6 +62,7 @@ public class FuncionarioControle {
 		if(result.hasErrors()) {
 			return cadastrar(funcionario);
 		}
+		funcionario.setSenha(new BCryptPasswordEncoder().encode(funcionario.getSenha()));
 		funcionarioRepositorio.saveAndFlush(funcionario);
 		
 		return cadastrar(new Funcionario());

@@ -59,7 +59,7 @@
 								<label>Produto</label> <select th:field="*{produto}"
 									class="form-control">
 									<option th:each="prod: ${listaProdutos}" th:value="${prod.id}"
-										th:text="${prod.nome}"></option>
+										th:text="${prod.descricao}"></option>
 								</select>
 
 								<div class="invalid-feedback"></div>
