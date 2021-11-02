@@ -68,7 +68,7 @@
 						th:each="produto : ${listaProdutos}">
 						<div class="card h-100">
 							<a href="#"><img class="img-fluid"
-								th:src="@{/administrativo/produtos/mostrarImagem/{imagem}(imagem=${produto.nomeImagem})}" width="200" /></a>
+								th:src="@{/mostrarImagem/{imagem}(imagem=${produto.nomeImagem})}"  /></a>
 							<div class="card-body">
 								<h4 class="card-title">
 									<a href="#"><span th:text="${produto.descricao}"></span></a>
