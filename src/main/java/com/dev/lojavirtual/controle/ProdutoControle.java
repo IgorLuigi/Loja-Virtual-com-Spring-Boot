@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dev.lojavirtual.modelos.Produto;
 import com.dev.lojavirtual.repositorios.ProdutoRepositorio;
+import com.dev.lojavirtual.repositorios.CategoriaRepositorio;
+import com.dev.lojavirtual.repositorios.MarcaRepositorio;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,11 +33,20 @@ public class ProdutoControle {
 
 	@Autowired
 	private ProdutoRepositorio produtoRepositorio;
+	
+	@Autowired
+	private CategoriaRepositorio categoriaRepositorio;
+	
+	@Autowired
+	private MarcaRepositorio marcaRepositorio;
+	
 
 	@GetMapping("/administrativo/produtos/cadastrar")
 	public ModelAndView cadastrar(Produto produto) {
 		ModelAndView mv = new ModelAndView("administrativo/produtos/cadastro");
 		mv.addObject("produto", produto);
+		mv.addObject("listaCategorias", categoriaRepositorio.findAll());
+		mv.addObject("listaMarcas", marcaRepositorio.findAll());
 		return mv;
 	}
 

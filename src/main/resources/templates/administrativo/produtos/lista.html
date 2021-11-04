@@ -28,8 +28,7 @@
 						<tr>
 							<th>#</th>
 							<th>Descrição</th>
-							<th>Categoria</th>
-							<th>Marca</th>
+
 							<th>Quantidade em Estoque</th>
 							<th>Valor de Venda</th>
 							<th>Imagem</th>
@@ -40,8 +39,6 @@
 						<tr th:each="produto : ${listaProdutos}">
 							<td th:text="${produto.id}"></td>
 							<td th:text="${produto.descricao}"></td>
-							<td th:text="${produto.categoria.nomeCategoria}"></td>
-							<td th:text="${produto.marca.nomeMarca}"></td>
 							<td th:text="${produto.quantidadeEstoque}"></td>
 							<td th:text="${produto.valorVenda}"></td>
 							<td><img th:src="@{/administrativo/produtos/mostrarImagem/{imagem}(imagem=${produto.nomeImagem})}" width="100"/></td>
