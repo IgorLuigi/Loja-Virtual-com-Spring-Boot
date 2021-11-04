@@ -165,7 +165,6 @@ public class Funcionario implements Serializable {
 		return serialVersionUID;
 	}
 
-<<<<<<< HEAD
 	public String getEmail() {
 		return email;
 	}
@@ -183,6 +182,3 @@ public class Funcionario implements Serializable {
 	}
 
 }
-=======
-}
->>>>>>> ea63aeec35d21624c8b8e21b66318fef9db3676f
