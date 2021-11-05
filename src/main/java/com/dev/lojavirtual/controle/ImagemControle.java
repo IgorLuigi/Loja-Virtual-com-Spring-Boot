@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import com.dev.lojavirtual.modelos.Produto;
+import com.dev.lojavirtual.repositorios.EstadoRepositorio;
+import com.dev.lojavirtual.repositorios.ImagemRepositorio;
 import com.dev.lojavirtual.repositorios.ProdutoRepositorio;
 
 import java.io.File;
@@ -28,6 +31,8 @@ import javax.validation.Valid;
 public class ImagemControle {
 
 	private static String caminhoImagem = "C:\\Users\\Jaguanhara Neto\\Documents\\imagensProjetoWEB"; 
+	
+	/**/
 
 	
 	@ResponseBody

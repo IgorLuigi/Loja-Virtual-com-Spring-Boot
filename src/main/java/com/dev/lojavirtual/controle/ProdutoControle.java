@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dev.lojavirtual.modelos.Imagem;
 import com.dev.lojavirtual.modelos.Produto;
 import com.dev.lojavirtual.repositorios.ProdutoRepositorio;
 import com.dev.lojavirtual.repositorios.CategoriaRepositorio;
+import com.dev.lojavirtual.repositorios.ImagemRepositorio;
 import com.dev.lojavirtual.repositorios.MarcaRepositorio;
 
 import java.io.File;
@@ -22,6 +24,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -40,6 +44,8 @@ public class ProdutoControle {
 	@Autowired
 	private MarcaRepositorio marcaRepositorio;
 	
+	@Autowired
+    private ImagemRepositorio imagemRepositorio;
 
 	@GetMapping("/administrativo/produtos/cadastrar")
 	public ModelAndView cadastrar(Produto produto) {
@@ -82,19 +88,33 @@ public class ProdutoControle {
 
 	@PostMapping("/administrativo/produtos/salvar")
 	public ModelAndView salvar(@Valid Produto produto, BindingResult result,
-			@RequestParam("file") MultipartFile arquivo) {
+			@RequestParam("file") List<MultipartFile> arquivo) {
 		if (result.hasErrors()) {
 			return cadastrar(produto);
 		}
 		
 		try {
 			if(!arquivo.isEmpty()) {
-				byte[] bytes = arquivo.getBytes();
-				Path caminho = Paths.get(caminhoImagem+String.valueOf(produto.getId())+arquivo.getOriginalFilename());
-				Files.write(caminho, bytes);
-				
-				produto.setNomeImagem(String.valueOf(produto.getId())+arquivo.getOriginalFilename());
+				List<Imagem> imagemList = new ArrayList<>();
 				produtoRepositorio.saveAndFlush(produto);
+				
+				for(MultipartFile file : arquivo){
+					Imagem imagem = new Imagem();
+					
+					byte[] bytes = file.getBytes();
+					
+					Path caminho = Paths.get(caminhoImagem+String.valueOf(produto.getId())+file.getOriginalFilename());
+					Files.write(caminho, bytes);
+					
+					Imagem imagemComValores  = setValoresImagens(imagem, produto, file);
+					imagemList.add(imagemRepositorio.saveAndFlush(imagemComValores));
+					/*
+					 * produto.setNomeImagem(String.valueOf(produto.getId())+arquivo.
+					 * getOriginalFilename());
+					 */	
+				}
+				produto.setNomeImagem(imagemList);
+				produto = produtoRepositorio.saveAndFlush(produto);
 			}
 		}catch(IOException e) {
 			e.printStackTrace();
@@ -103,5 +123,11 @@ public class ProdutoControle {
 		produtoRepositorio.saveAndFlush(produto);
 
 		return cadastrar(new Produto());
+	}
+
+	private Imagem setValoresImagens(Imagem imagem, Produto produto, MultipartFile file) {
+		imagem.setNomeImagem(String.valueOf(produto.getId() + file.getOriginalFilename()));
+        imagem.setProduto(produto);
+	    return imagem;
 	}
 }

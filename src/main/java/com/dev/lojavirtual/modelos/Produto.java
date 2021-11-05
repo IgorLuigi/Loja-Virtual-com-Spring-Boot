@@ -1,12 +1,14 @@
 package com.dev.lojavirtual.modelos;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -71,12 +73,17 @@ public class Produto implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	public void setNomeImagem(List<Imagem> imagemList) {
+		// TODO Auto-generated method stub
+		
+	}
 	public String getNomeImagem() {
 		return nomeImagem;
 	}
 	public void setNomeImagem(String nomeImagem) {
 		this.nomeImagem = nomeImagem;
 	}
+
 	
 
 }
