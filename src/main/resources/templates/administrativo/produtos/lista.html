@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+	<!DOCTYPE HTML>
 <html xmlns:layout="http://www.w3.org/1999/xhtml"
 	layout:decorate="~{administrativo/fragments/layout}">
 <head>
@@ -21,7 +21,72 @@
 			</div>
 		</nav>
 		<div class="container">
-		
+			<p>
+				<button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseDescricao" aria-controls="collapseDescricao">Busca por Descricao</button>
+				<button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseCategoria" aria-controls="collapseCategoria">Busca por Categoria</button>
+				<button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseMarca" aria-controls="collapseMarca">Busca por Marca</button>
+				
+
+			</p>
+
+			<div class="row">
+				<div class="col">
+					<div class="collapse" id="collapseDescricao">
+						<nav class="navbar navbar-light bg-light">
+							<form class="form-inline" method="GET"
+								  action="/administrativo/produtos/listar/descricao">
+								<input class="form-control mr-sm-2" type="search" placeholder="Digite a descricao" aria-label="Search" name="descricao" />
+								<button class="btn btn-outline-success my-2 my-sm-0">Pesquisar</button>
+							</form>
+						</nav>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<div class="collapse" id="collapseCategoria">
+						<nav class="navbar navbar-light bg-light">
+							<form class="form-inline" method="GET"
+								  action="/administrativo/produtos/listar/categoria">
+								<input class="form-control mr-sm-2" type="search" placeholder="Digite a categoria" aria-label="Search" name="nome" />
+								<button class="btn btn-outline-success my-2 my-sm-0">Pesquisar</button>
+							</form>
+						</nav>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<div class="collapse" id="collapseMarca">
+						<nav class="navbar navbar-light bg-light">
+							<form class="form-inline" method="GET"
+								  action="/administrativo/produtos/listar/marca">
+								<input class="form-control mr-sm-2" type="search" placeholder="Digite a marca" aria-label="Search" name="nome" />
+								<button class="btn btn-outline-success my-2 my-sm-0">Pesquisar</button>
+							</form>
+						</nav>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<div class="collapse" id="collapseProduto">
+						<nav class="navbar navbar-light bg-light">
+							<form class="form-inline" method="GET"
+								  action="/administrativo/produtos/listar">
+								
+								<button class="btn btn-outline-success my-2 my-sm-0">Pesquisar</button>
+							</form>
+						</nav>
+
+					</div>
+				</div>
+			</div>
 			<div class="table-responsive">
 				<table class="table table-striped table-hover table-sm">
 					<thead>

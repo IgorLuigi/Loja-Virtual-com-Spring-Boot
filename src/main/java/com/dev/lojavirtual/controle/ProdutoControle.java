@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dev.lojavirtual.modelos.Categoria;
 import com.dev.lojavirtual.modelos.Imagem;
+import com.dev.lojavirtual.modelos.Marca;
 import com.dev.lojavirtual.modelos.Produto;
 import com.dev.lojavirtual.repositorios.ProdutoRepositorio;
 import com.dev.lojavirtual.repositorios.CategoriaRepositorio;
@@ -150,6 +152,43 @@ public class ProdutoControle {
         produtoRepositorio.saveAll(listaProduto);
 
         return cadastrar(new Produto());
-    }
+    	}
 
+	 @GetMapping("administrativo/produtos/listar/descricao")
+	    public ModelAndView listarPorDescricao(String descricao) {
+	        ModelAndView mv = new ModelAndView("administrativo/produtos/lista");
+	        mv.addObject("listaProdutos", produtoRepositorio.findByDescricao(descricao));
+	        return mv;
+	    }
+
+	 @GetMapping("administrativo/produtos/listar/categoria") 
+	    public ModelAndView listarPorCategoria(String nome) {
+
+	        List<Categoria> listaCategoria =  categoriaRepositorio.findByNome(nome);
+	        List<Produto> listaProduto = new ArrayList<>();
+
+	        for(Categoria categoria : listaCategoria){
+	            listaProduto = produtoRepositorio.findByCategoria(categoria);
+
+	        }
+
+	        ModelAndView mv = new ModelAndView("administrativo/produtos/lista");
+	        mv.addObject("listaProdutos",  listaProduto);
+
+	        return mv;
+	    }
+
+	 @GetMapping("administrativo/produtos/listar/marca")
+	    public ModelAndView listarPorMarca(String nome) {
+	        List<Produto> listaProduto = new ArrayList<>();
+	        List<Marca> listaMarca = marcaRepositorio.findByNome(nome);
+
+	        for(Marca marca : listaMarca){
+	            listaProduto = produtoRepositorio.findByMarca(marca);
+	        }
+
+	        ModelAndView mv = new ModelAndView("administrativo/produtos/lista");
+	        mv.addObject("listaProdutos", listaProduto);
+	        return mv;
+	    }
 }
