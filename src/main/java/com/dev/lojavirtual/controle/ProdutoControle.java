@@ -130,4 +130,26 @@ public class ProdutoControle {
         imagem.setProduto(produto);
 	    return imagem;
 	}
+	
+	@GetMapping("/inserirLotes")
+    public ModelAndView salvarLotes() {
+        List<Produto> listaProduto = new ArrayList<>();
+
+        for(int x = 0; x < 50000; x++){
+            Produto produto = new Produto();
+            produto.setDescricao(null);
+            produto.setValorVenda(50.0);
+            produto.setCategoria(null);
+            produto.setMarca(null);
+            produto.setQuantidadeEstoque(10.0);
+            
+            
+
+            listaProduto.add(produto);
+        }
+        produtoRepositorio.saveAll(listaProduto);
+
+        return cadastrar(new Produto());
+    }
+
 }
