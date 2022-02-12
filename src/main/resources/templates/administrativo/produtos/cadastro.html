@@ -62,20 +62,22 @@
 							class="form-control" id="valorVenda" placeholder="Valor de venda" 
 							data-mask-reverse="true" th:field="*{valorVenda}" value="" />
 						<div class="invalid-feedback"></div>
+						
 					</div>
 					
 					<div class="form-group col-md-12">
 						<input type="file" name="file" multiple/>
 					</div>
 					
-					<form action="/administrativo/produtos/salvarLotes">
-						<div class="container">
-							<button type="submit" class="btn btn-danger btn-sm">Salvar 50K </button>
-						</div>
-					</form>
+					
 					
 				<input type="hidden" id="id" th:field="*{id}" value="" />
 				<button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+				<form action="/administrativo/produtos/inserirLotes">
+					<div class="container">
+						<button type="submit" class="btn btn-danger btn-sm">Salvar 50K </button>
+					</div>
+				</form>
 			</form>
 		</div>
 	</section>

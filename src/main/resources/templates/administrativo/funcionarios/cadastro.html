@@ -152,7 +152,7 @@
 		if (typeof cpf !== "string") return false
 		cpf = cpf.replace(/[\s.-]*/igm, '')
 		if (cpf.length !== 11 || !Array.from(cpf).filter(e => e !== cpf[0]).length) {
-			document.getElementById("retornoFalse").innerHTML = "CPF digitado é Inválido";
+			document.getElementById("retornoFalse").innerHTML = "X";
 			return false
 		}
 		var soma = 0

@@ -133,17 +133,17 @@ public class ProdutoControle {
 	    return imagem;
 	}
 	
-	@GetMapping("/inserirLotes")
+	@GetMapping("/administrativo/produtos/inserirLotes")
     public ModelAndView salvarLotes() {
         List<Produto> listaProduto = new ArrayList<>();
 
         for(int x = 0; x < 50000; x++){
             Produto produto = new Produto();
-            produto.setDescricao(null);
-            produto.setValorVenda(50.0);
+            produto.setDescricao("Produtos teste");
+            produto.setValorVenda(10.0);
             produto.setCategoria(null);
             produto.setMarca(null);
-            produto.setQuantidadeEstoque(10.0);
+            produto.setQuantidadeEstoque(5.0);
             
             
 
