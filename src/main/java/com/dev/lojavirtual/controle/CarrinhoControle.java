@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dev.lojavirtual.modelos.ItensCompra;
 import com.dev.lojavirtual.modelos.Produto;
 import com.dev.lojavirtual.repositorios.EstadoRepositorio;
 import com.dev.lojavirtual.repositorios.ImagemRepositorio;
@@ -22,6 +23,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -29,21 +32,35 @@ import javax.validation.Valid;
 @Controller
 public class CarrinhoControle {
 
+	private List<ItensCompra> itensCompra = new ArrayList<ItensCompra>();
+
+	@Autowired
+	private ProdutoRepositorio repositorioProduto;
 
 	@GetMapping("/carrinho")
 	public ModelAndView chamarCarrinho() {
 		ModelAndView mv = new ModelAndView("cliente/carrinho");
+		mv.addObject("listaItens", itensCompra);
 		return mv;
 
 	}
-	
 
 	@GetMapping("/adicionarCarrinho/{id}")
 	public ModelAndView adicionarCarrinho(@PathVariable Long id) {
-		System.out.println("ID do produto: "+id);
 		ModelAndView mv = new ModelAndView("cliente/carrinho");
+		
+		Optional<Produto> prod = repositorioProduto.findById(id);
+		Produto produto = prod.get();
+		ItensCompra item = new ItensCompra();
+		item.setProduto(produto);
+		item.setValorUnitario(produto.getValorVenda());
+		item.setQuantidade(item.getQuantidade() + 1);
+		item.setValorTotal(item.getQuantidade() * item.getValorUnitario());
+		itensCompra.add(item);
+		
+		mv.addObject("listaItens", itensCompra);
 		return mv;
 
 	}
-	
+
 }
