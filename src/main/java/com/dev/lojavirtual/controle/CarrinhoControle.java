@@ -51,12 +51,24 @@ public class CarrinhoControle {
 		
 		Optional<Produto> prod = repositorioProduto.findById(id);
 		Produto produto = prod.get();
-		ItensCompra item = new ItensCompra();
-		item.setProduto(produto);
-		item.setValorUnitario(produto.getValorVenda());
-		item.setQuantidade(item.getQuantidade() + 1);
-		item.setValorTotal(item.getQuantidade() * item.getValorUnitario());
-		itensCompra.add(item);
+		
+		int controle = 0;
+		for (ItensCompra it : itensCompra) {
+			if (it.getProduto().getId().equals(produto.getId())) {
+				it.setQuantidade(it.getQuantidade() + 1);
+				controle = 1;
+				break;
+			}
+		}
+		
+		if (controle == 0) {
+			ItensCompra item = new ItensCompra();
+			item.setProduto(produto);
+			item.setValorUnitario(produto.getValorVenda());
+			item.setQuantidade(item.getQuantidade() + 1);
+			item.setValorTotal(item.getQuantidade() * item.getValorUnitario());
+			itensCompra.add(item);
+		}
 		
 		mv.addObject("listaItens", itensCompra);
 		return mv;
