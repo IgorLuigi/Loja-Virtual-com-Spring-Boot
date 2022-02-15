@@ -1,6 +1,9 @@
 package com.dev.lojavirtual.controle;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -12,9 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dev.lojavirtual.modelos.Cliente;
 import com.dev.lojavirtual.modelos.Compra;
 import com.dev.lojavirtual.modelos.ItensCompra;
 import com.dev.lojavirtual.modelos.Produto;
+import com.dev.lojavirtual.repositorios.ClienteRepositorio;
 import com.dev.lojavirtual.repositorios.EstadoRepositorio;
 import com.dev.lojavirtual.repositorios.ImagemRepositorio;
 import com.dev.lojavirtual.repositorios.ProdutoRepositorio;
@@ -35,13 +40,17 @@ public class CarrinhoControle {
 
 	private List<ItensCompra> itensCompra = new ArrayList<ItensCompra>();
 	private Compra compra = new Compra();
+	private Cliente cliente;
 
 	@Autowired
 	private ProdutoRepositorio repositorioProduto;
-	
+
+	@Autowired
+	private ClienteRepositorio clienteRepositorio;
+
 	private void calcularTotal() {
 		compra.setValorTotal(0.);
-		for(ItensCompra it: itensCompra) {
+		for (ItensCompra it : itensCompra) {
 			compra.setValorTotal(compra.getValorTotal() + it.getValorTotal());
 		}
 	}
@@ -54,13 +63,22 @@ public class CarrinhoControle {
 		mv.addObject("listaItens", itensCompra);
 		return mv;
 	}
-	
+
+	private void buscarUsuarioLogado() {
+		Authentication autenticado = SecurityContextHolder.getContext().getAuthentication();
+		if (!(autenticado instanceof AnonymousAuthenticationToken)) {
+			String email = autenticado.getName();
+			cliente = clienteRepositorio.buscarClienteEmail(email).get(0);
+		}
+	}
+
 	@GetMapping("/finalizar")
 	public ModelAndView finalizarCompra() {
 		ModelAndView mv = new ModelAndView("cliente/finalizar");
 		calcularTotal();
 		mv.addObject("compra", compra);
 		mv.addObject("listaItens", itensCompra);
+		mv.addObject("cliente", cliente);
 		return mv;
 	}
 
