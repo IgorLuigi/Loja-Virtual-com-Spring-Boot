@@ -54,6 +54,15 @@ public class CarrinhoControle {
 		mv.addObject("listaItens", itensCompra);
 		return mv;
 	}
+	
+	@GetMapping("/finalizar")
+	public ModelAndView finalizarCompra() {
+		ModelAndView mv = new ModelAndView("cliente/finalizar");
+		calcularTotal();
+		mv.addObject("compra", compra);
+		mv.addObject("listaItens", itensCompra);
+		return mv;
+	}
 
 	@GetMapping("/alterarQuantidade/{id}/{acao}")
 	public String alterarQuantidade(@PathVariable Long id, @PathVariable Integer acao) {
