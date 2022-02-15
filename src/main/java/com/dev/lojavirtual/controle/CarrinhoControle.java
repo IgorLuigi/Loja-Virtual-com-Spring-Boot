@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dev.lojavirtual.modelos.Compra;
 import com.dev.lojavirtual.modelos.ItensCompra;
 import com.dev.lojavirtual.modelos.Produto;
 import com.dev.lojavirtual.repositorios.EstadoRepositorio;
@@ -33,13 +34,23 @@ import javax.validation.Valid;
 public class CarrinhoControle {
 
 	private List<ItensCompra> itensCompra = new ArrayList<ItensCompra>();
+	private Compra compra = new Compra();
 
 	@Autowired
 	private ProdutoRepositorio repositorioProduto;
+	
+	private void calcularTotal() {
+		compra.setValorTotal(0.);
+		for(ItensCompra it: itensCompra) {
+			compra.setValorTotal(compra.getValorTotal() + it.getValorTotal());
+		}
+	}
 
 	@GetMapping("/carrinho")
 	public ModelAndView chamarCarrinho() {
 		ModelAndView mv = new ModelAndView("cliente/carrinho");
+		calcularTotal();
+		mv.addObject("compra", compra);
 		mv.addObject("listaItens", itensCompra);
 		return mv;
 	}
@@ -51,8 +62,12 @@ public class CarrinhoControle {
 			if (it.getProduto().getId().equals(id)) {
 				if (acao.equals(1)) {
 					it.setQuantidade(it.getQuantidade() + 1);
+					it.setValorTotal(0.);
+					it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
 				} else if (acao == 0) {
 					it.setQuantidade(it.getQuantidade() - 1);
+					it.setValorTotal(0.);
+					it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
 				}
 				break;
 			}
@@ -84,6 +99,8 @@ public class CarrinhoControle {
 		for (ItensCompra it : itensCompra) {
 			if (it.getProduto().getId().equals(produto.getId())) {
 				it.setQuantidade(it.getQuantidade() + 1);
+				it.setValorTotal(0.);
+				it.setValorTotal(it.getValorTotal() + (it.getQuantidade() * it.getValorUnitario()));
 				controle = 1;
 				break;
 			}
@@ -94,7 +111,7 @@ public class CarrinhoControle {
 			item.setProduto(produto);
 			item.setValorUnitario(produto.getValorVenda());
 			item.setQuantidade(item.getQuantidade() + 1);
-			item.setValorTotal(item.getQuantidade() * item.getValorUnitario());
+			item.setValorTotal(item.getValorTotal() + (item.getQuantidade() * item.getValorUnitario()));
 			itensCompra.add(item);
 		}
 
