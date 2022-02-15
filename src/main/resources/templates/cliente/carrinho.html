@@ -48,10 +48,12 @@
 									
 									
 								<td class="text-right" th:text="${item.valorTotal}"></td>
-								<td class="text-right"><button
-										class="btn btn-sm btn-danger">
-										<i class="fa fa-trash"></i>
-									</button></td>
+								<td class="text-right">
+								
+								<a class="btn btn-sm btn-danger"
+									th:href="@{/removerProduto/{id}(id=${item.produto.id}}"
+									role="button"><i class ="fa fa-trash"></i></a>
+							
 							</tr>
 							<tr>
 								<td></td>
