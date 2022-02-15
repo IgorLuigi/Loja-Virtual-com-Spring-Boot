@@ -20,8 +20,10 @@ import com.dev.lojavirtual.modelos.Compra;
 import com.dev.lojavirtual.modelos.ItensCompra;
 import com.dev.lojavirtual.modelos.Produto;
 import com.dev.lojavirtual.repositorios.ClienteRepositorio;
+import com.dev.lojavirtual.repositorios.CompraRepositorio;
 import com.dev.lojavirtual.repositorios.EstadoRepositorio;
 import com.dev.lojavirtual.repositorios.ImagemRepositorio;
+import com.dev.lojavirtual.repositorios.ItensCompraRepositorio;
 import com.dev.lojavirtual.repositorios.ProdutoRepositorio;
 
 import java.io.File;
@@ -47,6 +49,12 @@ public class CarrinhoControle {
 
 	@Autowired
 	private ClienteRepositorio clienteRepositorio;
+
+	@Autowired
+	private CompraRepositorio compraRepositorio;
+
+	@Autowired
+	private ItensCompraRepositorio itensCompraRepositorio;
 
 	private void calcularTotal() {
 		compra.setValorTotal(0.);
@@ -79,6 +87,22 @@ public class CarrinhoControle {
 		mv.addObject("compra", compra);
 		mv.addObject("listaItens", itensCompra);
 		mv.addObject("cliente", cliente);
+		return mv;
+	}
+
+	@PostMapping("/finalizar/confirmar")
+	public ModelAndView confirmarCompra(String formaPagamento) {
+		ModelAndView mv = new ModelAndView("cliente/mensagemFinalizou");
+		compra.setCliente(cliente);
+		compra.setFormaPagamaento(formaPagamento);
+		compraRepositorio.saveAndFlush(compra);
+
+		for (ItensCompra c : itensCompra) {
+			c.setCompra(compra);
+			itensCompraRepositorio.saveAndFlush(c);
+		}
+		itensCompra = new ArrayList<>();
+		compra = new Compra();
 		return mv;
 	}
 
