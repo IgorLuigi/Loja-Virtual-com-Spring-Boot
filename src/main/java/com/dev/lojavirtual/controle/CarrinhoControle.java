@@ -43,10 +43,9 @@ public class CarrinhoControle {
 		mv.addObject("listaItens", itensCompra);
 		return mv;
 	}
-	
+
 	@GetMapping("/alterarQuantidade/{id}/{acao}")
-	public ModelAndView alterarQuantidade(@PathVariable Long id, @PathVariable Integer acao) {
-		ModelAndView mv = new ModelAndView("cliente/carrinho");
+	public String alterarQuantidade(@PathVariable Long id, @PathVariable Integer acao) {
 
 		for (ItensCompra it : itensCompra) {
 			if (it.getProduto().getId().equals(id)) {
@@ -59,32 +58,28 @@ public class CarrinhoControle {
 			}
 		}
 
-		mv.addObject("listaItens", itensCompra);
-		return mv;
+		return "redirect:/carrinho";
 	}
-	
+
 	@GetMapping("/removerProduto/{id}")
-	public ModelAndView removerProdutoCarrinho(@PathVariable Long id) {
-		ModelAndView mv = new ModelAndView("cliente/carrinho");
+	public String removerProdutoCarrinho(@PathVariable Long id) {
 
 		for (ItensCompra it : itensCompra) {
 			if (it.getProduto().getId().equals(id)) {
 				itensCompra.remove(it);
-				break; 
+				break;
 			}
 		}
 
-		mv.addObject("listaItens", itensCompra);
-		return mv;
+		return "redirect:/carrinho";
 	}
 
 	@GetMapping("/adicionarCarrinho/{id}")
-	public ModelAndView adicionarCarrinho(@PathVariable Long id) {
-		ModelAndView mv = new ModelAndView("cliente/carrinho");
-		
+	public String adicionarCarrinho(@PathVariable Long id) {
+
 		Optional<Produto> prod = repositorioProduto.findById(id);
 		Produto produto = prod.get();
-		
+
 		int controle = 0;
 		for (ItensCompra it : itensCompra) {
 			if (it.getProduto().getId().equals(produto.getId())) {
@@ -93,7 +88,7 @@ public class CarrinhoControle {
 				break;
 			}
 		}
-		
+
 		if (controle == 0) {
 			ItensCompra item = new ItensCompra();
 			item.setProduto(produto);
@@ -102,9 +97,8 @@ public class CarrinhoControle {
 			item.setValorTotal(item.getQuantidade() * item.getValorUnitario());
 			itensCompra.add(item);
 		}
-		
-		mv.addObject("listaItens", itensCompra);
-		return mv;
+
+		return "redirect:/carrinho";
 
 	}
 
