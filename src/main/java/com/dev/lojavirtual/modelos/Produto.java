@@ -31,7 +31,7 @@ public class Produto implements Serializable {
 	private Categoria categoria;
 	@ManyToOne
 	private Marca marca;
-	private Double quantidadeEstoque=0.;
+	private Integer quantidadeEstoque=0;
 	private String nomeImagem;
 	
 	public Long getId() {
@@ -64,10 +64,10 @@ public class Produto implements Serializable {
 	public void setMarca(Marca marca) {
 		this.marca = marca;
 	}
-	public Double getQuantidadeEstoque() {
+	public Integer getQuantidadeEstoque() {
 		return quantidadeEstoque;
 	}
-	public void setQuantidadeEstoque(Double quantidadeEstoque) {
+	public void setQuantidadeEstoque(Integer quantidadeEstoque) {
 		this.quantidadeEstoque = quantidadeEstoque;
 	}
 	public static long getSerialversionuid() {

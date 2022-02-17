@@ -143,7 +143,7 @@ public class ProdutoControle {
             produto.setValorVenda(10.0);
             produto.setCategoria(null);
             produto.setMarca(null);
-            produto.setQuantidadeEstoque(5.0);
+            produto.setQuantidadeEstoque(5);
             
             
 

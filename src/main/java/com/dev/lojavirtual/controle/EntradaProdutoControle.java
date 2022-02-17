@@ -85,7 +85,7 @@ public class EntradaProdutoControle {
 				entradaItensRepositorio.saveAndFlush(it);
 				Optional<Produto> prod = produtoRepositorio.findById(it.getProduto().getId());
 				Produto produto = prod.get();
-				produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() + it.getQuantidade());
+				produto.setQuantidadeEstoque((int) (produto.getQuantidadeEstoque() + it.getQuantidade()));
 				produto.setValorVenda(it.getValorVenda());
 				produtoRepositorio.saveAndFlush(produto);
 				this.listaEntrada = new ArrayList<>();

@@ -45,15 +45,15 @@
 
 									<a class="btn btn-sm btn-success"
 									th:href="@{/alterarQuantidade/{id}/{acao}(id=${item.produto.id}, acao=${0})}"
-									role="button"><i class ="fa fa-minus"></i></a>
+									role="button"><i class ="fa fa-minus"></i></a></td>
 									
 								<td class="text-right" th:text="${item.valorUnitario}"></td>
 								<td class="text-right" th:text="${item.valorTotal}"></td>
 								<td class="text-right">
 								
 								<a class="btn btn-sm btn-danger"
-									th:href="@{/removerProduto/{id}(id=${item.produto.id}}"
-									role="button"><i class ="fa fa-trash"></i></a>
+									th:href="@{/removerProduto/{id}(id=${item.produto.id})}"
+									role="button"><i class ="fa fa-trash"></i></a></td>
 							
 							</tr>
 							<tr>
